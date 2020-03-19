@@ -1,0 +1,154 @@
+*  {
+    margin:0;
+    padding:0;
+}
+
+html, body {height:100%;}
+
+body{
+	font-family: arial,sans-serif-light,sans-serif;
+}
+
+
+
+.geral {
+    min-height:100%;
+    position:relative;
+    padding-bottom: 80px;
+}
+
+footer {
+    position:absolute;
+    bottom:0;
+    width:100%;
+}
+
+header{
+	margin-bottom: 20px;
+	background: #efefef;
+	position: relative;
+	padding-bottom: 8px;
+}
+
+header h1 a,
+header h1{
+	color: #e72f41;
+}
+
+header .form_lancamentos{
+	position: absolute;
+	right: 0;
+    top: 21px;
+}
+
+header .form_lancamentos{
+	display: inline-block;
+}
+
+header .form_lancamentos .dezenas{
+	width: 274px;
+}
+header .form_lancamentos input{
+	display: inline-block;
+}
+
+.aviso{
+	margin-bottom: 60px;
+}
+
+.bolas_chamadas .dezenas_sorteadas .dezena{
+	display: inline-block;
+    padding: 4px;
+    font-size: 14px;
+    position: relative;
+    font-weight: 300;
+    margin-bottom: 4px;
+}
+.bolas_chamadas .dezenas_sorteadas .dezena a,
+.bolas_chamadas .dezenas_sorteadas .dezena{
+	font-weight: bold;
+	background: #F8D217;
+	color: #FFF;
+}
+
+.cartela{
+	display: inline-block;
+	width: 100%;
+	margin-bottom: 15px;
+}
+
+.cartela h2{
+	margin-top: 0;
+}
+
+.acoes a{
+	width: 100%;
+	margin-bottom: 8px;
+}
+
+.btn_voltar{
+	text-align: right;
+}
+
+footer {
+	padding: 20px 0;
+	background: #efefef;
+}
+
+.creditos{
+	text-align: center;
+}
+
+
+.cartela .dezena{
+	display: inline-block;
+    margin: 11px;
+    letter-spacing: 2px;
+    padding: 0 0 0 2px;
+    width: 44px;
+    height: 44px;
+    font-size: 22px;
+    line-height: 44px;
+    border-radius: 50%;
+    border: 1px solid rgba(0,0,0,.16);
+    position: relative;
+    vertical-align: middle;
+    text-align: center;
+    box-sizing: border-box;
+
+    font-weight: 300;
+}
+
+.cartela .dezena.sorteada a,
+.dezenas_sorteadas .dezena.sorteada a,
+.dezenas_sorteadas .dezena.sorteada,
+.cartela .dezena.sorteada {
+	font-weight: bold;
+	background: #398439;
+	color: #FFF;
+}
+
+.scroll{
+	overflow-y: auto;
+	max-height: 300px;
+	margin-bottom: 20px;
+	text-align: right;
+}
+
+.scroll .todas_dezenas{
+	display: inline-block;
+	margin-bottom: 15px;
+}
+
+.scroll li a{
+	font-size: 18px;
+}
+
+.naboa{
+	font-weight: bold;
+}
+
+.saiu a{
+	color: #398439;
+	font-weight: bold;
+}
