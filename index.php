@@ -1,9 +1,11 @@
 <?php
+include("config.php");
 include("functions.php");
 
 $ler_todas_dezenas = ler_todas_dezenas();
 $ler_totas_cartelas = ler_totas_cartelas();
 $lista_cartela_ordem = lista_cartela_ordem();
+$dezenas_chamadas = lista_dezenas();
 ?>
 
 	<?php include("header.php"); ?>
@@ -19,7 +21,7 @@ $lista_cartela_ordem = lista_cartela_ordem();
 					<ul>
 						<?php 
 						foreach($ler_todas_dezenas as $dezena){	?>
-							<li class="dezena <?php echo (in_array($dezena,$dezenas)?"sorteada":false)?>" >
+							<li class="dezena <?php echo (in_array($dezena,$dezenas_chamadas)?"sorteada":false)?>" >
 								<a href="excluir_incluir_dezena.php?dezena=<?php echo $dezena; ?>" title="Excluir"><?php echo $dezena; ?></a>
 							</li>
 						<?php } ?>

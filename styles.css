@@ -52,13 +52,20 @@ header .form_lancamentos input{
 	display: inline-block;
 }
 
+.alert-secondary{
+	background-color: #efefef!important;
+	background-image: none;
+	border: #efefef!important;
+	color: #333;
+}
+
 .aviso{
 	margin-bottom: 60px;
 }
 
 .bolas_chamadas .dezenas_sorteadas .dezena{
 	display: inline-block;
-    padding: 4px;
+    padding: 4px 5.7px;
     font-size: 14px;
     position: relative;
     font-weight: 300;
@@ -133,6 +140,7 @@ footer {
 	max-height: 300px;
 	margin-bottom: 20px;
 	text-align: right;
+	padding-right: 20px;
 }
 
 .scroll .todas_dezenas{
@@ -151,4 +159,41 @@ footer {
 .saiu a{
 	color: #398439;
 	font-weight: bold;
+}
+
+.balao2{
+	position: relative;
+	background: #F8D217;
+	border-radius: .4em;
+	padding: 20px;
+}
+
+.balao2:after{ /*Triangulo*/
+	content: '';
+	position: absolute;
+	left: 0;
+	top: 50%;
+	width: 0;
+	height: 0;
+	border: 20px solid transparent;
+	border-right-color: #F8D217;
+	border-left: 0;
+	border-bottom: 0;
+	margin-top: -10px;
+	margin-left: -20px;
+}
+
+.sandrinha_maciel{
+	margin-bottom: 20px;
+	color: #398439;
+	font-weight: bold;
+}
+
+.sandrinha_maciel .imagem_sandra{
+	text-align: right;
+}
+
+.sandrinha_maciel .imagem_sandra img{
+	max-width: 70px;
+	margin: 0 0 0 auto;
 }

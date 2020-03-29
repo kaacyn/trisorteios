@@ -1,5 +1,13 @@
 <?php
+include("config.php");
 include("functions.php");
+
+
+$back = null;
+if(isset($_POST['back']) and !empty($_POST['back'])){
+	$back = $_POST['back'];
+}
+
 
 $erros = 0;
 $dezenas = somente_numero($_POST['dezenas']);
@@ -35,8 +43,8 @@ if(!empty($dezenas)){
 if($erros == 0){
 	if(grava_dezenas($dezenas_array)){
 		mensagem("Dezena(s) <b>".implode(",",$dezenas_array)."</b> lançada(s) com sucesso.");
-		redirect("./");
+		redirect($back);
 	}
 } else {
-	redirect("./");
+	redirect($back);
 }

@@ -8,11 +8,11 @@
 				<?php } else { ?>
 					<div class="aviso">Nenhuma cartela cadastrada.</div>
 				<?php } ?>
-				<?php if($dezenas = lista_dezenas()){ ?>
+				<?php if($dezenas_chamadas){ ?>
 					<div class="bolas_chamadas">
-						<span class="bolas_chamadas"><?php echo count($dezenas)?> bola(s) lançada(s).</span>
+						<span class="bolas_chamadas"><?php echo count($dezenas_chamadas)?> bola(s) lançada(s).</span>
 			  			<ul class="dezenas_sorteadas">
-				  			<?php foreach($dezenas as $dezena){ ?>
+				  			<?php foreach($dezenas_chamadas as $dezena){ ?>
 								<li class="dezena">
 									<a href="excluir_incluir_dezena.php?dezena=<?php echo $dezena; ?>" title="Excluir dezena"><?php echo $dezena; ?></a>
 								</li>

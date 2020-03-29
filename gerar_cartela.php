@@ -1,10 +1,12 @@
 <?php
+include("config.php");
 include("functions.php");
 
 
 $ler_todas_dezenas = ler_todas_dezenas();
 $ler_totas_cartelas = ler_totas_cartelas();
 $lista_cartela_ordem = lista_cartela_ordem();
+$dezenas_chamadas = lista_dezenas();
 
 if(isset($_POST['quantidade'])){
 	gerar_cartelas($_POST['quantidade']);

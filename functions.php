@@ -50,8 +50,14 @@ function lista_cartela_ordem(){
 }
 
 function ler_cartela($numero_cartela){
+	if($ler_totas_cartelas = ler_totas_cartelas()){
+		if(isset($ler_totas_cartelas[$numero_cartela])){
+			return $ler_totas_cartelas[$numero_cartela];
+		}
+	}
 
-	return ler_totas_cartelas()[$numero_cartela];
+	redirect("./");
+
 }
 
 function ler_todas_dezenas(){
@@ -113,6 +119,7 @@ function mensagem($mensagem = false){
 
 function redirect($url){
 	header("Location: ".$url);
+	exit;
 }
 
 function grava_dezenas($dezenas){
@@ -265,4 +272,25 @@ function gerar_cartelas($quantidade){
     mensagem("Cartelas geradas com sucesso.");
 
     redirect("./");
+}
+
+
+function contar_titulos_na_posicao($lista_cartela_ordem){
+	$titulos_pela_boa = array();
+
+	if(isset($lista_cartela_ordem) and !empty($lista_cartela_ordem)){
+		foreach($lista_cartela_ordem as $titulo => $ordem){
+
+				if(!isset($titulos_pela_boa[$ordem])){
+					$titulos_pela_boa[$ordem] = 0;
+				}
+
+				$titulos_pela_boa[$ordem]++;
+			
+		}
+
+		return $titulos_pela_boa;
+	}
+
+	return false;
 }
