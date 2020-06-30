@@ -3,7 +3,7 @@ include("config.php");
 include("functions.php");
 
 $ler_todas_dezenas = ler_todas_dezenas();
-$ler_totas_cartelas = ler_totas_cartelas();
+$ler_todas_cartelas = ler_todas_cartelas();
 $lista_cartela_ordem = lista_cartela_ordem();
 $dezenas_chamadas = lista_dezenas();
 ?>

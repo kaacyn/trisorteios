@@ -11,6 +11,9 @@
 
 	<script src="js/bootstrap/js/bootstrap.min.js"></script>
 
+
+
+	<link rel="stylesheet" href="fonts/font-awesome-4.7.0/css/font-awesome.min.css">
 	<link rel="stylesheet" href="js/bootstrap/css/bootstrap.min.css">
 	<link rel="stylesheet" href="js/bootstrap/css/bootstrap-theme.min.css">
 	<link rel="stylesheet" href="styles.css" rel="stylesheet">

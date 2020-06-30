@@ -1,7 +1,7 @@
 <?php
 session_start();
 
-function ler_totas_cartelas(){
+function ler_todas_cartelas(){
 	$linhas = array();
 
 	if(!isset($_SESSION['cartelas_ordem'])){
@@ -15,8 +15,13 @@ function ler_totas_cartelas(){
 		//Mostra uma linha do arquivo
 		$linha = fgets($arquivo, 1024);
 
-		$linha_array = array_map('trim', explode(',',$linha));
-		$numero_cartela = array_shift($linha_array); 
+		$linha_array = array_map('trim', preg_split("/[\s,;]/", $linha));
+
+		$linha_array = array_filter($linha_array);
+		// echo "<pre>";
+		// print_r($linha_array);
+		// exit;
+		 $numero_cartela = array_shift($linha_array); 
 
 		if(!empty($linha_array)){
 			$linhas[$numero_cartela] = $linha_array;
@@ -32,10 +37,50 @@ function ler_totas_cartelas(){
 	return $linhas;
 }
 
+
+function ler_todos_sorteios(){
+	$linhas = array();
+
+	//Abre o Arquvio no Modo r (para leitura)
+	$arquivo = fopen('db/sorteios.txt', 'r');
+	while(!feof($arquivo))
+	{
+		//Mostra uma linha do arquivo
+		$linha = fgets($arquivo, 1024);
+
+		$linha_array = array_map('trim', explode(',',$linha));
+		$data_sorteio = array_shift($linha_array); 
+
+		if(!empty($linha_array)){
+			$linhas[$data_sorteio][] = separa_em_dezenas($linha_array[0]);
+		}
+	}
+
+	fclose($arquivo);
+
+	return $linhas;
+}
+
+function formata_data($data){
+	#yyyymmdd
+	$ano = substr($data, 0, 4);
+	$mes = substr($data, 4, 2);
+	$dia = substr($data, 6, 2);
+
+	return $dia."/".$mes."/".$ano;
+}
+
+function separa_em_dezenas($numero){
+
+	$numero = somente_numero($numero);
+
+	return str_split($numero, 2);
+}
+
 function lista_cartela_ordem(){
 
 	if(!isset($_SESSION['cartelas_ordem'])){
-		ler_totas_cartelas();
+		ler_todas_cartelas();
 	}
 
 	if(!is_array($_SESSION['cartelas_ordem'])){
@@ -50,9 +95,9 @@ function lista_cartela_ordem(){
 }
 
 function ler_cartela($numero_cartela){
-	if($ler_totas_cartelas = ler_totas_cartelas()){
-		if(isset($ler_totas_cartelas[$numero_cartela])){
-			return $ler_totas_cartelas[$numero_cartela];
+	if($ler_todas_cartelas = ler_todas_cartelas()){
+		if(isset($ler_todas_cartelas[$numero_cartela])){
+			return $ler_todas_cartelas[$numero_cartela];
 		}
 	}
 
@@ -60,8 +105,10 @@ function ler_cartela($numero_cartela){
 
 }
 
+
+
 function ler_todas_dezenas(){
-	$cartelas = ler_totas_cartelas();
+	$cartelas = ler_todas_cartelas();
 
 	$dezenas_unicas = array();
 	foreach($cartelas as $cartela){
@@ -151,6 +198,90 @@ function grava_dezenas($dezenas){
 	
 }
 
+
+function ranquear_sorteios($dezenas){
+
+	unset($_SESSION['sorteios_ordem']);
+
+
+	if(!isset($_SESSION['sorteios_ordem'])){
+		$_SESSION['sorteios_ordem'] = array();
+	}
+
+	$todos_sorteios = ler_todos_sorteios();
+
+
+
+	foreach($todos_sorteios as $data=>$rodada){
+		
+		$memo_pontos = array("pontos" => 0,"rodada" => 0);
+		foreach($rodada as $numero_rodada=>$dezenas_cartela){
+			$pontos = 0;
+
+			foreach($dezenas_cartela as $dezena){
+				if(in_array($dezena,$dezenas)){
+					$pontos++;
+				}
+			}
+
+			if($memo_pontos["pontos"] < $pontos){
+				$memo_pontos = array("rodada" => ($numero_rodada+1), "pontos" => $pontos, "data" => $data,);
+			}
+
+		}
+
+		$_SESSION['sorteios_ordem'][] = $memo_pontos;
+	}
+
+	usort($_SESSION['sorteios_ordem'],"sorteios_ordena_por_data_pontos");
+
+	return $_SESSION['sorteios_ordem'];
+}
+
+
+
+
+function link_cartela_prev_next($numero_cartela,$ler_todas_cartelas){
+
+	$retorno = array(
+		"prev" => '<i class="fa fa-arrow-circle-left" aria-hidden="true"></i>',
+		"next" => '<i class="fa fa-arrow-circle-right" aria-hidden="true"></i>'
+	);
+
+	$array_keys = array_keys($ler_todas_cartelas);
+	
+	$index = array_search($numero_cartela, $array_keys);
+
+
+	if($index !== false){
+
+		if(isset($array_keys[$index+1])){
+			$retorno['next'] = '<a href="./cartela.php?numero_cartela='.$array_keys[$index+1].'"><i class="fa fa fa-arrow-circle-right" aria-hidden="true"></i></a>';
+		} else {
+			$retorno['next'] = '<i class="fa fa-arrow-circle-right" style="color:#CCC;" aria-hidden="true"></i>';
+		}
+
+		if(isset($array_keys[$index-1])){
+			$retorno['prev'] = '<a href="./cartela.php?numero_cartela='.$array_keys[$index-1].'"><i class="fa fa-arrow-circle-left" aria-hidden="true"></i></a>';
+		} else {
+			$retorno['prev'] = '<i class="fa fa-arrow-circle-left" aria-hidden="true"></i>';	
+		}
+	}
+
+	return $retorno;
+}
+
+
+
+function sorteios_ordena_por_data_pontos($a, $b) {
+
+   $c = -($a["pontos"] <=>  $b["pontos"]);
+    $c .= -($a["data"] <=>  $b["data"]);
+    return $c;
+
+  return $c;
+}
+
 function ranquear_cartelas($dezenas){
 	if(!is_array($dezenas)){
 		return false;
@@ -160,7 +291,7 @@ function ranquear_cartelas($dezenas){
 		$_SESSION['cartelas_ordem'] = array();
 	}
 
-	$todas_cartelas = ler_totas_cartelas();
+	$todas_cartelas = ler_todas_cartelas();
 
 	foreach($todas_cartelas as $numero_cartela => $dezenas_cartela){
 
