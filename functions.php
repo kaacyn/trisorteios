@@ -8,55 +8,34 @@ function ler_todas_cartelas(){
 		$_SESSION['cartelas_ordem'] = array();
 	}
 
-	//Abre o Arquvio no Modo r (para leitura)
-	$arquivo = fopen('db/cartelas.txt', 'r');
-	while(!feof($arquivo))
+	$arquivo = fopen('db/cartelas.csv', 'r');
+	while (($linha = fgetcsv($arquivo,0, ";")) !== false)
 	{
-		//Mostra uma linha do arquivo
-		$linha = fgets($arquivo, 1024);
 
-		$linha_array = array_map('trim', preg_split("/[\s,;]/", $linha));
+		$linha_array = array_map('trim', preg_split("/[\s,;]/", $linha[1]));
 
 		$linha_array = array_filter($linha_array);
-		// echo "<pre>";
-		// print_r($linha_array);
-		// exit;
-		 $numero_cartela = array_shift($linha_array); 
+
+		$numero_cartela = array_shift($linha); 
 
 		if(!empty($linha_array)){
-			$linhas[$numero_cartela] = $linha_array;
-			
-			if(!isset($_SESSION['cartelas_ordem'][$numero_cartela])){
-				$_SESSION['cartelas_ordem'][$numero_cartela] = 0;
+			if(is_numeric($numero_cartela)){
+				if(!isset($_SESSION['cartelas_ordem'][$numero_cartela])){
+					$_SESSION['cartelas_ordem'][$numero_cartela] = 0;
+				}
+
+				$linhas[$numero_cartela] = array(
+					"dezenas"			=>	$linha_array,
+					"nome"				=>	$linha[1],
+					"telefone"			=>	$linha[2],
+					"email"				=>	$linha[3]
+				);
 			}
 		}
 	}
 
 	fclose($arquivo);
 
-	return $linhas;
-}
-
-
-function ler_todos_sorteios(){
-	$linhas = array();
-
-	//Abre o Arquvio no Modo r (para leitura)
-	$arquivo = fopen('db/sorteios.txt', 'r');
-	while(!feof($arquivo))
-	{
-		//Mostra uma linha do arquivo
-		$linha = fgets($arquivo, 1024);
-
-		$linha_array = array_map('trim', explode(',',$linha));
-		$data_sorteio = array_shift($linha_array); 
-
-		if(!empty($linha_array)){
-			$linhas[$data_sorteio][] = separa_em_dezenas($linha_array[0]);
-		}
-	}
-
-	fclose($arquivo);
 
 	return $linhas;
 }
@@ -80,6 +59,7 @@ function separa_em_dezenas($numero){
 function lista_cartela_ordem(){
 
 	if(!isset($_SESSION['cartelas_ordem'])){
+
 		ler_todas_cartelas();
 	}
 
@@ -106,13 +86,12 @@ function ler_cartela($numero_cartela){
 }
 
 
-
 function ler_todas_dezenas(){
 	$cartelas = ler_todas_cartelas();
 
 	$dezenas_unicas = array();
 	foreach($cartelas as $cartela){
-		foreach($cartela as $dezena){
+		foreach($cartela['dezenas'] as $dezena){
 			if(!in_array($dezena,$dezenas_unicas)){
 				$dezenas_unicas[] = $dezena;
 			}
@@ -198,49 +177,6 @@ function grava_dezenas($dezenas){
 	
 }
 
-
-function ranquear_sorteios($dezenas){
-
-	unset($_SESSION['sorteios_ordem']);
-
-
-	if(!isset($_SESSION['sorteios_ordem'])){
-		$_SESSION['sorteios_ordem'] = array();
-	}
-
-	$todos_sorteios = ler_todos_sorteios();
-
-
-
-	foreach($todos_sorteios as $data=>$rodada){
-		
-		$memo_pontos = array("pontos" => 0,"rodada" => 0);
-		foreach($rodada as $numero_rodada=>$dezenas_cartela){
-			$pontos = 0;
-
-			foreach($dezenas_cartela as $dezena){
-				if(in_array($dezena,$dezenas)){
-					$pontos++;
-				}
-			}
-
-			if($memo_pontos["pontos"] < $pontos){
-				$memo_pontos = array("rodada" => ($numero_rodada+1), "pontos" => $pontos, "data" => $data,);
-			}
-
-		}
-
-		$_SESSION['sorteios_ordem'][] = $memo_pontos;
-	}
-
-	usort($_SESSION['sorteios_ordem'],"sorteios_ordena_por_data_pontos");
-
-	return $_SESSION['sorteios_ordem'];
-}
-
-
-
-
 function link_cartela_prev_next($numero_cartela,$ler_todas_cartelas){
 
 	$retorno = array(
@@ -271,17 +207,6 @@ function link_cartela_prev_next($numero_cartela,$ler_todas_cartelas){
 	return $retorno;
 }
 
-
-
-function sorteios_ordena_por_data_pontos($a, $b) {
-
-   $c = -($a["pontos"] <=>  $b["pontos"]);
-    $c .= -($a["data"] <=>  $b["data"]);
-    return $c;
-
-  return $c;
-}
-
 function ranquear_cartelas($dezenas){
 	if(!is_array($dezenas)){
 		return false;
@@ -295,9 +220,9 @@ function ranquear_cartelas($dezenas){
 
 	foreach($todas_cartelas as $numero_cartela => $dezenas_cartela){
 
-		foreach($dezenas_cartela as $dezena_cartela){
+		foreach($dezenas_cartela['dezenas'] as $dezena_cartela){
 			if(in_array($dezena_cartela,$dezenas)){
-
+				//echo $numero_cartela; exit;
 				$_SESSION['cartelas_ordem'][$numero_cartela]++;
 
 				//echo $_SESSION['cartelas_ordem'][$numero_cartela];exit;
@@ -305,7 +230,9 @@ function ranquear_cartelas($dezenas){
 		}
 	}
 
+
 	arsort($_SESSION['cartelas_ordem']);
+
 
 	return true;
 }
@@ -352,6 +279,7 @@ function excluir_lancamentos(){
 	if(isset($_SESSION['dezenas'])){
 		unset($_SESSION['dezenas']);
 		unset($_SESSION['cartelas_ordem']);
+
 		return true;
 	}
 
@@ -359,6 +287,25 @@ function excluir_lancamentos(){
 }
 
 function gerar_cartelas($quantidade){
+
+	if(@rename("db/cartelas.csv", "db/bkp_".time()."_cartelas.csv") == false){
+		mensagem("O arquivo cartelas.csv está aberto em outro local. É necessário fechá-lo.");
+		return false;
+	}
+
+    $arquivo = fopen('db/cartelas.csv', 'w');
+
+	$header = array(
+		"CARTELA",
+		"DEZENAS",
+		"NOME",
+		"TELEFONE",
+		"EMAIL"
+	);
+
+    fputcsv($arquivo, $header, ";"); 
+
+
 	$cartelas = null;
 	$n = array();
 	$n_unico = array();
@@ -366,7 +313,6 @@ function gerar_cartelas($quantidade){
 	for ($x = 1; $x <= $quantidade; $x++) { 
 		$i=1;
 		while ($i <= 20) { 
-			$numero_cartela = str_pad($x, 6, '0', STR_PAD_LEFT);
 			$numero = str_pad(rand(1, 60), 2, '0', STR_PAD_LEFT);
 			if(!in_array($numero,$n)){
 				$n[] = $numero; 
@@ -379,24 +325,23 @@ function gerar_cartelas($quantidade){
 		}
 		# Ordena os números
 		sort($n);
-		array_unshift($n,$numero_cartela);
+		//array_unshift($n,$numero_cartela);
 		# Exibe os números
 	
-		$cartelas .= implode(', ', $n)."\n";
+		$cartela = array(
+			$x,
+			implode(', ', $n),
+			"",
+			"",
+			""
+		);
+
+		 fputcsv($arquivo, $cartela, ";");
 
 		$n = array();
-
 	}
 
-	rename("db/cartelas.txt", "db/bkp_".time()."_cartelas.txt");
-    //Variável $fp armazena a conexão com o arquivo e o tipo de ação.
-    $fp = fopen("db/cartelas.txt", "a+");
- 
-    //Escreve no arquivo aberto.
-    fwrite($fp, trim($cartelas));
-     
-    //Fecha o arquivo.
-    fclose($fp);
+    fclose($arquivo);
 
     excluir_lancamentos();
 

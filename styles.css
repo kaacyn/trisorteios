@@ -84,6 +84,26 @@ header .form_lancamentos input{
 	margin-bottom: 15px;
 }
 
+
+
+.cartela .email,
+.cartela .telefone{
+	display: block;
+}
+
+.cartela .titular{
+	display: block;
+	background: #EFEFEF;
+	padding: 20px;
+	margin-top: 30px;
+}
+
+
+.cartela h3{
+	margin-top: 0;
+}
+
+
 .cartela h2{
 	margin-top: 0;
 }

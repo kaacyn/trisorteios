@@ -25,7 +25,7 @@ if(isset($_POST['quantidade'])){
 				<form method="post">
 					<div class="row">
 						<div class="col-xs-10 col-sm-10 col-md-10 col-lg-10">
-							<input type="number" name="quantidade" min="1" max="999" required="" placeholder="Números de cartelas de 1 a 99999" class="form-control">
+							<input type="number" name="quantidade" min="1" max="99999" required="" placeholder="Números de cartelas de 1 a 99999" class="form-control">
 						</div>
 						<div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
 							<input class="form-control btn btn-success" type="submit" value="Gerar">
