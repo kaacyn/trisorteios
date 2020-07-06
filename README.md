@@ -15,3 +15,5 @@
 - Clique em "GERAR CARTELAS", informe o número de cartelas desejada e clique em "GERAR"
 - Abra o arquivo cartelas.csv que está dentro da pasta db no excel, google drive ou qualquer outro editor de planilhas de sua preferência para editar ou incluir dados dos participantes.
 
+## Vídeo do funcionamento (versão antiga)
+- https://www.youtube.com/watch?v=Q5_assUPtn8
