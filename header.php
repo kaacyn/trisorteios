@@ -9,14 +9,14 @@
 
 	<title>Trisorteios</title>
 
-	<script src="js/bootstrap/js/bootstrap.min.js"></script>
-
-
-
-	<link rel="stylesheet" href="fonts/font-awesome-4.7.0/css/font-awesome.min.css">
-	<link rel="stylesheet" href="js/bootstrap/css/bootstrap.min.css">
-	<link rel="stylesheet" href="js/bootstrap/css/bootstrap-theme.min.css">
-	<link rel="stylesheet" href="styles.css" rel="stylesheet">
+	<script src="assets/js/bootstrap/js/bootstrap.min.js"></script>
+	<script src="assets/js/jquery-3.1.1.min.js"></script>
+	<script src="assets/js/jquery-migrate-3.0.0.min.js"></script>
+	<script src="assets/js/scripts.js"></script>
+	<link rel="stylesheet" href="assets/fonts/font-awesome-4.7.0/css/font-awesome.min.css">
+	<link rel="stylesheet" href="assets/js/bootstrap/css/bootstrap.min.css">
+	<link rel="stylesheet" href="assets/js/bootstrap/css/bootstrap-theme.min.css">
+	<link rel="stylesheet" href="assets/css/styles.css" rel="stylesheet">
 
   </head>
   <body>
@@ -34,7 +34,6 @@
 								<input name="back" type="hidden" value="<?php echo $_SERVER['REQUEST_URI']?>">
 								<input class="btn btn-success" type="submit" value="LANÇAR">
 							</form>
-
 						</div>
 			  		</div>
 			  	</div>
@@ -69,7 +68,7 @@
 						    <div class="row">
 						  		<div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
 						  			<div class="imagem_sandra">	
-						  				<img src="images/sandrinha_maciel.png" class="img-responsive" alt="sandra maciel">
+						  				<img src="assets/images/sandrinha_maciel.png" class="img-responsive" alt="sandra maciel">
 						  			</div>
 						  		</div>
 						  		<div class="col-xs-10 col-sm-10 col-md-10 col-lg-10">

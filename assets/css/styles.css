@@ -52,6 +52,43 @@ header .form_lancamentos input{
 	display: inline-block;
 }
 
+.giro-da-sorte .display .output {
+    margin: 20px;
+    padding: 20px;
+    background: gray;
+    border-radius: 10px;
+    font-size: 80px;
+    width: 80px;
+    color: white;
+    float: left;
+    font-size: 40px;
+}
+
+.giro-da-sorte{
+	text-align: center;
+}
+
+.giro-da-sorte .display{
+	overflow: hidden;
+	display: inline-block;
+}
+
+
+
+.giro-da-sorte .counter-up{
+	font-size: 80px;
+}
+
+.giro-da-sorte .numero-sorteado{
+	text-align: center;
+}
+
+.giro-da-sorte .numero-sorteado .count{
+	background: #e72f41;
+	width: 10px;
+	display: inline-block;
+}
+
 .alert-secondary{
 	background-color: #efefef!important;
 	background-image: none;

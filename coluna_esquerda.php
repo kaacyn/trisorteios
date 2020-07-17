@@ -23,5 +23,6 @@
 				
 				<div class="acoes">
 					<a href="excluir_lancamentos.php" class="btn btn-success" title="EXCLUIR LANCAMENTOS">EXCLUIR LANCAMENTOS</a>
+					<a href="giro_da_sorte.php" class="btn btn-success" title="GIRO DA SORTE">GIRO DA SORTE</a>
 					<a href="gerar_cartela.php" class="btn btn-success" title="GERAR CARTELAS">GERAR CARTELAS</a>
 				</div>

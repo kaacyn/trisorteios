@@ -28,7 +28,8 @@ function ler_todas_cartelas(){
 					"dezenas"			=>	$linha_array,
 					"nome"				=>	$linha[1],
 					"telefone"			=>	$linha[2],
-					"email"				=>	$linha[3]
+					"email"				=>	$linha[3],
+					"numero_cartela"    =>  $numero_cartela
 				);
 			}
 		}
@@ -36,8 +37,14 @@ function ler_todas_cartelas(){
 
 	fclose($arquivo);
 
-
 	return $linhas;
+}
+
+function sortear_cartela($ler_todas_cartelas){
+	// ksort($ler_todas_cartelas);
+	$ler_todas_cartela = array_rand($ler_todas_cartelas,1);
+
+	return $ler_todas_cartela;
 }
 
 function formata_data($data){
@@ -159,7 +166,6 @@ function grava_dezenas($dezenas){
 	}
 
 	foreach($dezenas as $dezena){
-
 
 		if(!in_array($dezena,$_SESSION['dezenas'])){
 			$_SESSION['dezenas'][] = $dezena;
